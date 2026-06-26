@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Sua próxima viagem">
+  <defs>
+    <linearGradient id="skybannerhero" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#08203a"/>
+      <stop offset="0.55" stop-color="#0d2d4d"/>
+      <stop offset="1" stop-color="#14406b"/>
+    </linearGradient>
+    <linearGradient id="fadebannerhero" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#06182b" stop-opacity="0.78"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#skybannerhero)"/>
+  <circle cx="1152" cy="234" r="208" fill="#ec1c24" opacity="0.95"/>
+  <circle cx="1152" cy="234" r="288" fill="#ec1c24" opacity="0.18"/>
+  <rect x="0" y="558" width="1600" height="342" fill="#1f6fa8"/><ellipse cx="1120" cy="570" rx="288" ry="10" fill="#ffffff" opacity="0.25"/><path d="M0 586 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.06"/><path d="M0 661.24 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.09"/><path d="M0 736.48 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.12"/><path d="M0 811.72 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.15"/><path d="M0 558 q 320 -90 640 -6 Z" fill="#103a5e" opacity="0.9"/><path d="M880.0000000000001 558 q 288 -70 640 -4 H1600 V558 Z" fill="#14507f" opacity="0.92"/><path d="M224.00000000000003 702 q 6 -70 -4 -120" stroke="#0c3b2e" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M220.00000000000003 584 q 25.810939635797073 -42.57456132866976 49.32757352618996 -18.02134497435782" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M220.00000000000003 584 q 40.783850416649244 -30.678547852220984 77.94246968515189 -9.297601758295388" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M220.00000000000003 584 q 44.31634888554936 -12.79055466999209 84.69346675904988 3.820259908672467" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M220.00000000000003 584 q 34.47199994035401 1.2836282905961767 65.8798221082321 14.141327413103863" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M220.00000000000003 584 q 15.390906449655096 10.190778623577248 29.41373232600752 20.673237657289985" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- rastro de avião (motivo da marca) -->
+  <path d="M128 240 q 480 -90 992 -36" stroke="#ffffff" stroke-width="5" stroke-dasharray="2 16" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <g transform="translate(1120 202) rotate(18) scale(2.1)" fill="#ffffff" opacity="0.95">
+    <path d="M2 12 L30 7 L34 0 L37 7 L46 5 L40 12 L46 19 L37 17 L34 24 L30 17 Z"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#fadebannerhero)"/>
+  <text x="800" y="750" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="131.20000000000002" font-weight="700" fill="#ffffff">Sua próxima viagem</text>
+  <text x="800" y="808" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" letter-spacing="4" fill="#ffffff" opacity="0.92">COMEÇA AQUI</text>
+</svg>

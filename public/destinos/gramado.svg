@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500" role="img" aria-label="Gramado">
+  <defs>
+    <linearGradient id="skygramado" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#23355c"/>
+      <stop offset="0.55" stop-color="#4a6fa5"/>
+      <stop offset="1" stop-color="#a9c3e6"/>
+    </linearGradient>
+    <linearGradient id="fadegramado" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#06182b" stop-opacity="0.78"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#skygramado)"/>
+  <circle cx="864" cy="390" r="156" fill="#fff0c2" opacity="0.95"/>
+  <circle cx="864" cy="390" r="216" fill="#fff0c2" opacity="0.18"/>
+  <rect x="0" y="930" width="1200" height="570" fill="#3f9968"/><path d="M0 930 L 264 510.00000000000006 L 480 930 Z" fill="#1f5a4a"/><path d="M216 930 L 540 420.00000000000006 L 864 930 Z" fill="#2c7a55"/><path d="M600 930 L 936 540 L 1200 930 Z" fill="#1f5a4a"/><path d="M480 480 l 60 90 l -120 0 Z" fill="#ffffff" opacity="0.85"/>
+  <!-- rastro de avião (motivo da marca) -->
+  <path d="M96 360 q 360 -90 744 -36" stroke="#ffffff" stroke-width="5" stroke-dasharray="2 16" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <g transform="translate(840 322) rotate(18) scale(2.1)" fill="#ffffff" opacity="0.95">
+    <path d="M2 12 L30 7 L34 0 L37 7 L46 5 L40 12 L46 19 L37 17 L34 24 L30 17 Z"/>
+  </g>
+  <rect width="1200" height="1500" fill="url(#fadegramado)"/>
+  <text x="600" y="1350" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="98.4" font-weight="700" fill="#ffffff">Gramado</text>
+  <text x="600" y="1408" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" letter-spacing="4" fill="#ffffff" opacity="0.92">SERRA GAÚCHA · RS</text>
+</svg>

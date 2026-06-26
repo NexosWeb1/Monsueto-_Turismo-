@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Caldas Novas">
+  <defs>
+    <linearGradient id="skybannertermas" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e5f8c"/>
+      <stop offset="0.55" stop-color="#3da5e0"/>
+      <stop offset="1" stop-color="#9bd4f0"/>
+    </linearGradient>
+    <linearGradient id="fadebannertermas" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#06182b" stop-opacity="0.78"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#skybannertermas)"/>
+  <circle cx="1152" cy="234" r="208" fill="#ffd166" opacity="0.95"/>
+  <circle cx="1152" cy="234" r="288" fill="#ffd166" opacity="0.18"/>
+  <rect x="0" y="558" width="1600" height="342" fill="#7fd1e8"/><ellipse cx="1120" cy="570" rx="288" ry="10" fill="#ffffff" opacity="0.25"/><path d="M0 586 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.06"/><path d="M0 661.24 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.09"/><path d="M0 736.48 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.12"/><path d="M0 811.72 q 192 -14 400 0 t 400 0 t 400 0 t 400 0 V 900 H0 Z" fill="#ffffff" opacity="0.15"/><path d="M0 558 q 320 -90 640 -6 Z" fill="#0d6b5e" opacity="0.9"/><path d="M880.0000000000001 558 q 288 -70 640 -4 H1600 V558 Z" fill="#12876f" opacity="0.92"/>
+  <!-- rastro de avião (motivo da marca) -->
+  <path d="M128 240 q 480 -90 992 -36" stroke="#ffffff" stroke-width="5" stroke-dasharray="2 16" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <g transform="translate(1120 202) rotate(18) scale(2.1)" fill="#ffffff" opacity="0.95">
+    <path d="M2 12 L30 7 L34 0 L37 7 L46 5 L40 12 L46 19 L37 17 L34 24 L30 17 Z"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#fadebannertermas)"/>
+  <text x="800" y="750" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="131.20000000000002" font-weight="700" fill="#ffffff">Caldas Novas</text>
+  <text x="800" y="808" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" letter-spacing="4" fill="#ffffff" opacity="0.92">ÁGUAS TERMAIS · GO</text>
+</svg>

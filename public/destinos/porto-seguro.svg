@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500" role="img" aria-label="Porto Seguro">
+  <defs>
+    <linearGradient id="skyportoseguro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a4d8c"/>
+      <stop offset="0.55" stop-color="#1f8ad0"/>
+      <stop offset="1" stop-color="#7fd0f5"/>
+    </linearGradient>
+    <linearGradient id="fadeportoseguro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#06182b" stop-opacity="0.78"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#skyportoseguro)"/>
+  <circle cx="864" cy="390" r="156" fill="#ffcf5c" opacity="0.95"/>
+  <circle cx="864" cy="390" r="216" fill="#ffcf5c" opacity="0.18"/>
+  <rect x="0" y="930" width="1200" height="570" fill="#34b3d6"/><ellipse cx="840" cy="942" rx="216" ry="10" fill="#ffffff" opacity="0.25"/><path d="M0 958 q 144 -14 300 0 t 300 0 t 300 0 t 300 0 V 1500 H0 Z" fill="#ffffff" opacity="0.06"/><path d="M0 1083.4 q 144 -14 300 0 t 300 0 t 300 0 t 300 0 V 1500 H0 Z" fill="#ffffff" opacity="0.09"/><path d="M0 1208.8 q 144 -14 300 0 t 300 0 t 300 0 t 300 0 V 1500 H0 Z" fill="#ffffff" opacity="0.12"/><path d="M0 1334.2 q 144 -14 300 0 t 300 0 t 300 0 t 300 0 V 1500 H0 Z" fill="#ffffff" opacity="0.15"/><path d="M0 930 q 240 -90 480 -6 Z" fill="#0f7d6b" opacity="0.9"/><path d="M660 930 q 216 -70 480 -4 H1200 V930 Z" fill="#16a085" opacity="0.92"/><path d="M168.00000000000003 1170 q 6 -70 -4 -120" stroke="#0c3b2e" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M164.00000000000003 1052 q 25.810939635797073 -42.57456132866976 49.32757352618996 -18.02134497435782" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M164.00000000000003 1052 q 40.783850416649244 -30.678547852220984 77.94246968515189 -9.297601758295388" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M164.00000000000003 1052 q 44.31634888554936 -12.79055466999209 84.69346675904988 3.820259908672467" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M164.00000000000003 1052 q 34.47199994035401 1.2836282905961767 65.8798221082321 14.141327413103863" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M164.00000000000003 1052 q 15.390906449655096 10.190778623577248 29.41373232600752 20.673237657289985" stroke="#127a4f" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- rastro de avião (motivo da marca) -->
+  <path d="M96 360 q 360 -90 744 -36" stroke="#ffffff" stroke-width="5" stroke-dasharray="2 16" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <g transform="translate(840 322) rotate(18) scale(2.1)" fill="#ffffff" opacity="0.95">
+    <path d="M2 12 L30 7 L34 0 L37 7 L46 5 L40 12 L46 19 L37 17 L34 24 L30 17 Z"/>
+  </g>
+  <rect width="1200" height="1500" fill="url(#fadeportoseguro)"/>
+  <text x="600" y="1350" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="98.4" font-weight="700" fill="#ffffff">Porto Seguro</text>
+  <text x="600" y="1408" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" letter-spacing="4" fill="#ffffff" opacity="0.92">LITORAL · BA</text>
+</svg>
