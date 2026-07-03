@@ -13,6 +13,8 @@ import {
   HeartHandshake,
   Tag,
   Plane,
+  User,
+  Phone,
 } from "lucide-react";
 import { empresa, whatsappLink } from "@/lib/config";
 
@@ -100,10 +102,13 @@ const destaques = [
 
 export function Hero() {
   const [tipo, setTipo] = useState<(typeof tipos)[number]["id"]>("pacote");
+  const [nome, setNome] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [destino, setDestino] = useState("");
   const [quando, setQuando] = useState("");
   const [passageiros, setPassageiros] = useState("2 adultos");
   const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
+  const [website, setWebsite] = useState(""); // honeypot anti-spam
 
   const sugestoes = (
     destino.trim()
@@ -114,11 +119,30 @@ export function Hero() {
   function solicitar(e: React.FormEvent) {
     e.preventDefault();
     const tipoLabel = tipos.find((t) => t.id === tipo)?.label ?? "Pacote";
+    const dadosDestino = destino.trim() || "a definir";
+    const dadosQuando = quando.trim() || "a definir";
+
+    // Envia o lead para o e-mail da empresa (não bloqueia a abertura do WhatsApp)
+    fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nome,
+        telefone,
+        website,
+        tipo: tipoLabel,
+        destino: dadosDestino,
+        quando: dadosQuando,
+        passageiros,
+      }),
+    }).catch(() => {});
+
     const msg =
-      `Olá! Vim pelo site da Monsueto e gostaria de uma cotação.\n` +
+      `Olá! Meu nome é ${nome} e vim pelo site da Monsueto.\n` +
+      `Gostaria de uma cotação.\n` +
       `Tipo: ${tipoLabel}\n` +
-      `Destino: ${destino.trim() || "a definir"}\n` +
-      `Quando: ${quando.trim() || "a definir"}\n` +
+      `Destino: ${dadosDestino}\n` +
+      `Quando: ${dadosQuando}\n` +
       `Passageiros: ${passageiros}`;
     window.open(whatsappLink(msg), "_blank", "noopener,noreferrer");
   }
@@ -345,6 +369,40 @@ export function Hero() {
                   </select>
                 </Campo>
               </div>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Campo icon={User} label="Seu nome">
+                  <input
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                    placeholder="Como te chamamos?"
+                    required
+                    className="w-full bg-transparent text-sm text-brand-navy outline-none placeholder:text-muted-foreground/70"
+                  />
+                </Campo>
+                <Campo icon={Phone} label="WhatsApp">
+                  <input
+                    value={telefone}
+                    onChange={(e) => setTelefone(e.target.value)}
+                    placeholder="(31) 90000-0000"
+                    type="tel"
+                    required
+                    className="w-full bg-transparent text-sm text-brand-navy outline-none placeholder:text-muted-foreground/70"
+                  />
+                </Campo>
+              </div>
+
+              {/* Honeypot anti-spam (oculto para humanos) */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                className="hidden"
+                aria-hidden
+              />
             </div>
 
             <button
