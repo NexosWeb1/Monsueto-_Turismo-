@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Plus, Pencil, Trash2, Loader2, MapPin } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, CalendarDays } from "lucide-react";
 import { toast } from "sonner";
 import type { Pacote } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -21,26 +20,33 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+const meses = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+];
+
 type Form = {
   destino: string;
-  local: string;
-  descricao: string;
+  mes: string;
   imagem: string;
-  preco: string;
-  condicao: string;
-  validade: string;
   promocao: boolean;
   ativo: boolean;
 };
 
 const vazio: Form = {
   destino: "",
-  local: "",
-  descricao: "",
+  mes: "",
   imagem: "",
-  preco: "",
-  condicao: "",
-  validade: "",
   promocao: false,
   ativo: true,
 };
@@ -62,12 +68,8 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
     setEditId(p.id);
     setForm({
       destino: p.destino,
-      local: p.local,
-      descricao: p.descricao,
+      mes: p.mes || "",
       imagem: p.imagem,
-      preco: p.preco || "",
-      condicao: p.condicao || "",
-      validade: p.validade || "",
       promocao: p.promocao,
       ativo: p.ativo,
     });
@@ -75,8 +77,8 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
   }
 
   async function salvar() {
-    if (!form.destino.trim() || !form.imagem) {
-      toast.error("Preencha o destino e envie uma imagem.");
+    if (!form.imagem) {
+      toast.error("Envie a arte do pacote.");
       return;
     }
     setSaving(true);
@@ -118,7 +120,7 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
   }
 
   async function excluir(p: Pacote) {
-    if (!confirm(`Excluir o pacote "${p.destino}"?`)) return;
+    if (!confirm(`Excluir o pacote "${p.destino || "sem nome"}"?`)) return;
     const anterior = pacotes;
     setPacotes((prev) => prev.filter((x) => x.id !== p.id));
     const res = await fetch("/api/pacotes", {
@@ -150,7 +152,7 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
               <div className="relative aspect-[4/3]">
                 <Image
                   src={p.imagem}
-                  alt={p.destino}
+                  alt={p.destino || "Pacote"}
                   fill
                   sizes="(max-width: 640px) 100vw, 33vw"
                   className="object-cover"
@@ -167,12 +169,13 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
                 )}
               </div>
               <div className="p-4">
-                <p className="font-semibold text-brand-navy">{p.destino}</p>
-                <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-muted-foreground">
-                  <MapPin className="h-3 w-3" /> {p.local}
+                <p className="font-semibold text-brand-navy">
+                  {p.destino || "Pacote sem nome"}
                 </p>
-                {p.preco && (
-                  <p className="mt-2 text-sm font-semibold text-brand-red">{p.preco}</p>
+                {p.mes && (
+                  <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-muted-foreground">
+                    <CalendarDays className="h-3 w-3" /> {p.mes}
+                  </p>
                 )}
                 <div className="mt-4 flex items-center justify-between">
                   <label className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -204,7 +207,7 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
           <DialogHeader>
             <DialogTitle>{editId ? "Editar pacote" : "Novo pacote"}</DialogTitle>
             <DialogDescription>
-              Os pacotes aparecem na seção de destinos e promoções do site.
+              Envie a arte do pacote. O nome do lugar e o mês são opcionais.
             </DialogDescription>
           </DialogHeader>
 
@@ -217,69 +220,37 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
               />
               <p className="text-xs text-muted-foreground">
                 Envie a arte/flyer do pacote (formato retrato, tipo post de
-                Instagram). No card aparecem a arte, o valor, as parcelas e o
-                botão. O destino abaixo é usado na mensagem do WhatsApp.
+                Instagram). É ela que aparece no card do site.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <Label htmlFor="p-destino">Destino *</Label>
-                <Input
-                  id="p-destino"
-                  value={form.destino}
-                  onChange={(e) => setForm((f) => ({ ...f, destino: e.target.value }))}
-                  placeholder="Caldas Novas"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="p-local">Estado / Local</Label>
-                <Input
-                  id="p-local"
-                  value={form.local}
-                  onChange={(e) => setForm((f) => ({ ...f, local: e.target.value }))}
-                  placeholder="Goiás"
-                />
-              </div>
-            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="p-desc">Descrição</Label>
-              <Textarea
-                id="p-desc"
-                value={form.descricao}
-                onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
-                placeholder="O que está incluso no pacote..."
-                rows={3}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <Label htmlFor="p-preco">Preço</Label>
-                <Input
-                  id="p-preco"
-                  value={form.preco}
-                  onChange={(e) => setForm((f) => ({ ...f, preco: e.target.value }))}
-                  placeholder="a partir de R$ 890"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="p-cond">Condição</Label>
-                <Input
-                  id="p-cond"
-                  value={form.condicao}
-                  onChange={(e) => setForm((f) => ({ ...f, condicao: e.target.value }))}
-                  placeholder="por pessoa · 10x sem juros"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="p-validade">Validade da promoção</Label>
+              <Label htmlFor="p-destino">Nome do lugar</Label>
               <Input
-                id="p-validade"
-                value={form.validade}
-                onChange={(e) => setForm((f) => ({ ...f, validade: e.target.value }))}
-                placeholder="Embarques até dezembro"
+                id="p-destino"
+                value={form.destino}
+                onChange={(e) => setForm((f) => ({ ...f, destino: e.target.value }))}
+                placeholder="Ex: Caldas Novas (opcional)"
               />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="p-mes">Mês</Label>
+              <select
+                id="p-mes"
+                value={form.mes}
+                onChange={(e) => setForm((f) => ({ ...f, mes: e.target.value }))}
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              >
+                <option value="">Selecione o mês (opcional)</option>
+                {meses.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="flex flex-wrap gap-6">
               <label className="flex items-center gap-3">
                 <Switch

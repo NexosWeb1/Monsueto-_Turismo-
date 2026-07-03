@@ -4,12 +4,18 @@ import type { Pacote } from "@/lib/types";
 import { whatsappLink } from "@/lib/config";
 
 export function PacoteCard({ pacote }: { pacote: Pacote }) {
+  const nome = pacote.destino?.trim();
+  const quando = pacote.mes?.trim();
+  const mensagem = `Olá! Tenho interesse neste pacote${nome ? ` para ${nome}` : ""}${
+    quando ? ` no mês de ${quando}` : ""
+  }. Pode me passar mais informações?`;
+
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative aspect-[4/5] overflow-hidden bg-muted">
         <Image
           src={pacote.imagem}
-          alt={`Pacote para ${pacote.destino}`}
+          alt={nome ? `Pacote para ${nome}` : "Pacote de viagem"}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
@@ -23,9 +29,7 @@ export function PacoteCard({ pacote }: { pacote: Pacote }) {
 
       <div className="p-3">
         <a
-          href={whatsappLink(
-            `Olá! Tenho interesse no pacote para ${pacote.destino}. Pode me passar mais informações?`,
-          )}
+          href={whatsappLink(mensagem)}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-navy px-5 py-3.5 text-base font-semibold text-white transition-colors hover:bg-brand-red"

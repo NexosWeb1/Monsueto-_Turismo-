@@ -181,9 +181,14 @@ export function Hero() {
               className="font-heading mt-6 text-4xl leading-[1.05] text-white text-balance sm:text-5xl lg:text-6xl"
             >
               Sua próxima{" "}
-              <span className="bg-[linear-gradient(105deg,#7fd0ff_0%,#ffffff_50%,#ff6b52_100%)] bg-clip-text text-transparent">
+              <motion.span
+                className="bg-[linear-gradient(105deg,#7fd0ff_0%,#ffffff_50%,#ff6b52_100%)] bg-clip-text text-transparent"
+                style={{ backgroundSize: "200% 100%" }}
+                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              >
                 viagem
-              </span>{" "}
+              </motion.span>{" "}
               começa aqui
             </motion.h1>
             <motion.p
@@ -355,19 +360,39 @@ export function Hero() {
 
       {/* Faixa de destaques */}
       <div className="relative z-10 border-t border-white/10 bg-white/10 backdrop-blur-md">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-2 gap-x-6 gap-y-5 px-4 py-6 sm:px-6 lg:grid-cols-4 lg:px-10">
-          {destaques.map((d) => (
-            <div key={d.titulo} className="flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 text-brand-sky-light ring-1 ring-white/20">
+        <motion.div
+          className="mx-auto grid max-w-[1600px] grid-cols-2 gap-x-6 gap-y-5 px-4 py-6 sm:px-6 lg:grid-cols-4 lg:px-10"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-40px" }}
+        >
+          {destaques.map((d, i) => (
+            <motion.div
+              key={d.titulo}
+              variants={item}
+              className="flex items-center gap-3"
+              whileHover={{ y: -3 }}
+            >
+              <motion.div
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-red text-brand-sky-light shadow-lg shadow-brand-red/30 ring-1 ring-white/15"
+                animate={{ y: [0, -5, 0] }}
+                transition={{
+                  duration: 3.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.35,
+                }}
+              >
                 <d.icon className="h-5 w-5" />
-              </div>
+              </motion.div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-white">{d.titulo}</p>
                 <p className="truncate text-xs text-white/70">{d.texto}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

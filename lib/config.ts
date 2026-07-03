@@ -10,7 +10,7 @@ export const empresa = {
   whatsappLabel: "(31) 99171-7950",
   telefoneFixo: "553125573865",
   telefoneFixoLabel: "(31) 2557-3865",
-  email: "contato@monsueto.com.br",
+  email: "turismo@monsueto.com.br",
   instagram: "https://www.instagram.com/monsuetoturismo/",
   facebook: "https://www.facebook.com/MonsuetoTurismo/",
   mapsQuery:

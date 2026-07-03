@@ -7,6 +7,7 @@ export type Pacote = {
   preco?: string;
   condicao?: string;
   promocao: boolean;
+  mes?: string;
   validade?: string;
   ativo: boolean;
   ordem: number;

@@ -11,23 +11,24 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
-  if (!body?.destino || !body?.imagem) {
+  if (!body?.imagem) {
     return NextResponse.json(
-      { error: "Destino e imagem são obrigatórios" },
+      { error: "Envie a arte do pacote" },
       { status: 400 },
     );
   }
   const pacotes = await getPacotes();
   const novo: Pacote = {
     id: novoId("pac"),
-    destino: String(body.destino),
-    local: String(body.local || ""),
-    descricao: String(body.descricao || ""),
+    destino: String(body.destino || ""),
+    local: "",
+    descricao: "",
     imagem: String(body.imagem),
-    preco: body.preco ? String(body.preco) : "",
-    condicao: body.condicao ? String(body.condicao) : "",
+    preco: "",
+    condicao: "",
     promocao: Boolean(body.promocao),
-    validade: body.validade ? String(body.validade) : "",
+    mes: body.mes ? String(body.mes) : "",
+    validade: "",
     ativo: body.ativo !== false,
     ordem: pacotes.length ? Math.max(...pacotes.map((p) => p.ordem)) + 1 : 1,
   };
@@ -49,14 +50,10 @@ export async function PUT(req: Request) {
   pacotes[idx] = {
     ...pacotes[idx],
     destino: body.destino ?? pacotes[idx].destino,
-    local: body.local ?? pacotes[idx].local,
-    descricao: body.descricao ?? pacotes[idx].descricao,
     imagem: body.imagem ?? pacotes[idx].imagem,
-    preco: body.preco ?? pacotes[idx].preco,
-    condicao: body.condicao ?? pacotes[idx].condicao,
+    mes: body.mes ?? pacotes[idx].mes,
     promocao:
       typeof body.promocao === "boolean" ? body.promocao : pacotes[idx].promocao,
-    validade: body.validade ?? pacotes[idx].validade,
     ativo: typeof body.ativo === "boolean" ? body.ativo : pacotes[idx].ativo,
     ordem: typeof body.ordem === "number" ? body.ordem : pacotes[idx].ordem,
   };
