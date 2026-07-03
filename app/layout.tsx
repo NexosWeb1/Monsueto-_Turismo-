@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const SITE_URL = "https://monsuetoturismo.com.br";
+const SITE_URL = "https://monsueto.com.br";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

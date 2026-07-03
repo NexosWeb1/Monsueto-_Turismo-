@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 export function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
+  const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState("");
@@ -22,13 +23,13 @@ export function LoginForm() {
     const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ senha }),
+      body: JSON.stringify({ usuario, senha }),
     });
     if (res.ok) {
       router.replace(params.get("next") || "/admin");
       router.refresh();
     } else {
-      setErro("Senha incorreta. Tente novamente.");
+      setErro("Usuário ou senha incorretos. Tente novamente.");
       setLoading(false);
     }
   }
@@ -53,6 +54,18 @@ export function LoginForm() {
         </p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="usuario">Usuário</Label>
+            <Input
+              id="usuario"
+              type="text"
+              autoComplete="username"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              placeholder="Digite o usuário"
+              required
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="senha">Senha</Label>
             <Input

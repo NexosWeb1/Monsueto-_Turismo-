@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { empresa, whatsappLink } from "@/lib/config";
+import { InstagramIcon, FacebookIcon } from "@/components/icons/social";
 
 const links = [
   { href: "#inicio", label: "Início" },
@@ -13,6 +14,12 @@ const links = [
   { href: "#sobre", label: "Sobre" },
   { href: "#depoimentos", label: "Avaliações" },
   { href: "#contato", label: "Contato" },
+];
+
+const socials = [
+  { label: "Instagram", href: empresa.instagram, Icon: InstagramIcon },
+  { label: "Facebook", href: empresa.facebook, Icon: FacebookIcon },
+  { label: "E-mail", href: `mailto:${empresa.email}`, Icon: Mail },
 ];
 
 export function Header() {
@@ -42,25 +49,25 @@ export function Header() {
           : "bg-gradient-to-b from-black/40 to-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-20 max-w-[1600px] items-center justify-between px-4 sm:h-24 sm:px-6 lg:px-10">
         <a href="#inicio" className="flex items-center gap-2" aria-label="Monsueto Turismo">
           <Image
             src={scrolled ? "/brand/logo.png" : "/brand/logo-white.png"}
             alt="Monsueto Turismo"
-            width={64}
-            height={64}
+            width={96}
+            height={96}
             priority
-            className="h-12 w-auto sm:h-14"
+            className="h-16 w-auto sm:h-[5.5rem]"
           />
         </a>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-2 lg:flex">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium ring-1 ring-transparent transition-all duration-200",
+                "rounded-full px-5 py-2.5 text-[0.95rem] font-medium ring-1 ring-transparent transition-all duration-200",
                 scrolled
                   ? "text-brand-navy hover:bg-brand-red/10 hover:text-brand-red hover:ring-brand-red/30"
                   : "text-white/90 hover:bg-white/10 hover:text-white hover:ring-white/40",
@@ -71,7 +78,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4 lg:gap-6">
           <a
             href={`tel:+${empresa.telefoneFixo}`}
             className={cn(
@@ -86,10 +93,32 @@ export function Header() {
             href={whatsappLink("Olá! Vim pelo site e gostaria de informações.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center rounded-full bg-brand-red px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-red-dark hover:shadow-md sm:inline-flex"
+            className="hidden items-center rounded-full bg-brand-red px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-red-dark hover:shadow-md sm:inline-flex"
           >
             Fale conosco
           </a>
+
+          {/* Redes sociais */}
+          <div className="hidden items-center gap-2 lg:flex">
+            {socials.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className={cn(
+                  "flex h-9 w-9 items-center justify-center rounded-full ring-1 transition-colors",
+                  scrolled
+                    ? "text-brand-navy ring-border hover:bg-brand-red hover:text-white hover:ring-brand-red"
+                    : "text-white ring-white/30 hover:bg-white/15",
+                )}
+              >
+                <Icon className="h-[1.05rem] w-[1.05rem]" />
+              </a>
+            ))}
+          </div>
+
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -165,6 +194,20 @@ export function Header() {
                 >
                   <Phone className="h-4 w-4" /> {empresa.telefoneFixoLabel}
                 </a>
+                <div className="mt-1 flex items-center justify-center gap-3">
+                  {socials.map(({ label, href, Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="flex h-11 w-11 items-center justify-center rounded-full text-brand-navy ring-1 ring-border transition-colors hover:bg-brand-red hover:text-white hover:ring-brand-red"
+                    >
+                      <Icon className="h-5 w-5" />
+                    </a>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </>

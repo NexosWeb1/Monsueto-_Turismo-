@@ -7,7 +7,7 @@ import type { Pacote } from "@/lib/types";
 import { PacoteCard } from "./pacote-card";
 import { cn } from "@/lib/utils";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 3;
 
 const group: Variants = {
   hidden: {},
@@ -41,7 +41,7 @@ export function PacotesGrid({ pacotes }: { pacotes: Pacote[] }) {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}
-        className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        className="mx-auto mt-12 grid max-w-6xl gap-7 sm:grid-cols-2 lg:max-w-none lg:grid-cols-3"
       >
         {visiveis.map((p) => (
           <motion.div key={p.id} variants={item} className="h-full">

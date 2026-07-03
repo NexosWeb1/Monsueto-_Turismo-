@@ -22,8 +22,6 @@ const pilares = [
 ];
 
 export function Sobre() {
-  const anos = new Date().getFullYear() - empresa.desde;
-
   return (
     <section
       id="sobre"
@@ -39,26 +37,27 @@ export function Sobre() {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-white/72 via-white/86 to-white/95" />
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+      <div className="relative z-10 mx-auto grid max-w-[1600px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:px-10">
         {/* Mascote / imagem */}
         <Reveal className="relative order-2 lg:order-1">
-          <div className="relative mx-auto max-w-md animate-float">
+          <div className="relative mx-auto max-w-sm animate-float lg:mx-0 lg:max-w-md">
             <div className="absolute -inset-4 rounded-[2.5rem] bg-brand-sky/15 blur-2xl" />
             <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white shadow-xl">
-              <div className="sky-gradient relative aspect-[4/5]">
+              <div className="sky-gradient relative flex aspect-[4/5] items-center justify-center p-8">
                 <Image
-                  src="/brand/mascote.png"
+                  src="/brand/mascote-v2.png"
                   alt="Atendente da Monsueto Turismo pronta para planejar sua viagem"
-                  fill
-                  sizes="(max-width: 1024px) 80vw, 40vw"
-                  className="object-contain object-bottom drop-shadow-2xl"
+                  width={1444}
+                  height={2091}
+                  sizes="(max-width: 1024px) 70vw, 35vw"
+                  className="h-full w-auto object-contain drop-shadow-2xl"
                 />
               </div>
             </div>
             {/* selo flutuante */}
             <div className="absolute -bottom-5 -right-2 rounded-2xl bg-white px-5 py-4 shadow-lg ring-1 ring-brand-sky/20 sm:-right-6">
-              <p className="font-heading text-3xl text-brand-red">+{anos}</p>
-              <p className="text-xs font-medium text-muted-foreground">anos cuidando<br />das suas viagens</p>
+              <p className="font-heading text-3xl text-brand-red">+28</p>
+              <p className="text-xs font-medium text-muted-foreground">anos de<br />mercado</p>
             </div>
           </div>
         </Reveal>
@@ -75,10 +74,16 @@ export function Sobre() {
               </h2>
             </div>
             <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Desde {empresa.desde}, a Monsueto Turismo ajuda famílias e grupos de{" "}
-              {empresa.cidade} e região a viajar com tranquilidade. Cuidamos de passagens,
-              hospedagem, passeios e de tudo o que sua viagem precisa, com um atendimento
-              próximo e de confiança.
+              Com {empresa.experiencia} de experiência no mercado, a Monsueto Turismo,
+              localizada em {empresa.cidade}, construiu uma história de sucesso baseada em
+              muito trabalho e dedicação. Desde o início, nosso foco sempre foi oferecer
+              soluções em turismo com excelência, segurança e qualidade.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Realizamos os sonhos de viagem dos nossos clientes com profissionalismo, ética
+              e, o mais importante, um relacionamento verdadeiro. Atuamos nos segmentos
+              rodoviário, aéreo e marítimo, garantindo uma experiência única e inesquecível
+              em cada viagem.
             </p>
           </Reveal>
 

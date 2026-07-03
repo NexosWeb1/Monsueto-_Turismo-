@@ -8,7 +8,10 @@ export function Localizacao() {
   const now = new Date();
   const hoje = (now.getDay() + 6) % 7; // index para empresa.horarios (Seg=0)
   const hora = now.getHours();
-  const abertoAgora = empresa.horarios[hoje].aberto && hora >= 9 && hora < 18;
+  const diaHoje = empresa.horarios[hoje];
+  // Lê o horário de fechamento do dia (ex.: "09:00 às 17:00" -> 17)
+  const fechamento = Number(diaHoje.horario.match(/às\s*(\d{1,2})/)?.[1] ?? 18);
+  const abertoAgora = diaHoje.aberto && hora >= 9 && hora < fechamento;
 
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
     empresa.mapsQuery,

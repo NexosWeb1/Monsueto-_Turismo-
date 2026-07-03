@@ -27,9 +27,10 @@ export async function verifyToken(token?: string): Promise<boolean> {
   }
 }
 
-export function checkPassword(senha: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD || "monsueto123";
-  return senha === expected;
+export function checkCredentials(usuario: string, senha: string): boolean {
+  const usuarioEsperado = process.env.ADMIN_USER || "admin";
+  const senhaEsperada = process.env.ADMIN_PASSWORD || "monsueto123";
+  return usuario === usuarioEsperado && senha === senhaEsperada;
 }
 
 export const SESSION_MAX_AGE = MAX_AGE;

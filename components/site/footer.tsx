@@ -16,8 +16,8 @@ export function Footer() {
 
   return (
     <footer className="brand-gradient relative overflow-hidden text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div className="lg:col-span-1">
+      <div className="mx-auto grid max-w-[1400px] gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.5fr_1fr_1.1fr_1.3fr] lg:gap-16 lg:px-12">
+        <div>
           <Image
             src="/brand/logo-white.png"
             alt="Monsueto Turismo"
@@ -26,7 +26,7 @@ export function Footer() {
             className="h-16 w-auto"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">
-            {empresa.slogan}. Agência de viagens em {empresa.cidade} desde {empresa.desde}.
+            {empresa.slogan}. Agência de viagens em {empresa.cidade}, com {empresa.experiencia} de mercado.
           </p>
           <div className="mt-5 flex gap-3">
             <a
@@ -93,7 +93,7 @@ export function Footer() {
             </li>
             <li className="flex gap-2.5">
               <Clock className="h-4 w-4 shrink-0 text-brand-sky-light" />
-              <span>Seg a Sex, 09:00 às 18:00</span>
+              <span>Seg a Sex 09h às 18h · Sáb 09h às 17h</span>
             </li>
           </ul>
         </div>
@@ -117,7 +117,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-6 text-xs text-white/60 sm:flex-row sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-3 px-4 py-6 text-xs text-white/60 sm:flex-row sm:px-6 lg:px-12">
           <p>
             © {ano} {empresa.nome}. Todos os direitos reservados.
           </p>

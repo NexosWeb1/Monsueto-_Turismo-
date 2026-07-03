@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
-import { checkPassword, createToken, SESSION_COOKIE, SESSION_MAX_AGE } from "@/lib/auth";
+import { checkCredentials, createToken, SESSION_COOKIE, SESSION_MAX_AGE } from "@/lib/auth";
 
 export async function POST(req: Request) {
-  const { senha } = await req.json().catch(() => ({ senha: "" }));
+  const { usuario, senha } = await req
+    .json()
+    .catch(() => ({ usuario: "", senha: "" }));
 
-  if (!checkPassword(senha)) {
-    return NextResponse.json({ error: "Senha incorreta" }, { status: 401 });
+  if (!checkCredentials(usuario ?? "", senha ?? "")) {
+    return NextResponse.json({ error: "Usuário ou senha incorretos" }, { status: 401 });
   }
 
   const token = await createToken();

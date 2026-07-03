@@ -3,6 +3,7 @@ import { Hero } from "@/components/site/hero-carousel";
 import { Pacotes } from "@/components/site/pacotes";
 import { Sobre } from "@/components/site/sobre";
 import { Diferenciais } from "@/components/site/diferenciais";
+import { Parcerias } from "@/components/site/parcerias";
 import { Depoimentos } from "@/components/site/depoimentos";
 import { Localizacao } from "@/components/site/localizacao";
 import { Footer } from "@/components/site/footer";
@@ -26,9 +27,9 @@ export default function Home() {
       addressCountry: "BR",
     },
     telephone: `+${empresa.telefoneFixo}`,
-    url: "https://monsuetoturismo.com.br",
+    url: "https://monsueto.com.br",
     sameAs: [empresa.instagram, empresa.facebook],
-    openingHours: "Mo-Fr 09:00-18:00",
+    openingHours: ["Mo-Fr 09:00-18:00", "Sa 09:00-17:00"],
   };
 
   return (
@@ -41,8 +42,9 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <Pacotes />
-        <Sobre />
         <Diferenciais />
+        <Parcerias />
+        <Sobre />
         <Depoimentos />
         <Localizacao />
       </main>
