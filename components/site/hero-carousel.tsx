@@ -77,6 +77,17 @@ const destinos = [
 const semAcento = (s: string) =>
   s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
+// Formata o telefone como (xx) xxxxx-xxxx enquanto o usuário digita
+function formatarTelefone(valor: string): string {
+  const d = valor.replace(/\D/g, "").slice(0, 11);
+  if (d.length === 0) return "";
+  if (d.length <= 2) return `(${d}`;
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10)
+    return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
 const destaques = [
   {
     icon: HeartHandshake,
@@ -383,9 +394,11 @@ export function Hero() {
                 <Campo icon={Phone} label="WhatsApp">
                   <input
                     value={telefone}
-                    onChange={(e) => setTelefone(e.target.value)}
-                    placeholder="(31) 90000-0000"
+                    onChange={(e) => setTelefone(formatarTelefone(e.target.value))}
+                    placeholder="(31) 99999-9999"
                     type="tel"
+                    inputMode="numeric"
+                    maxLength={16}
                     required
                     className="w-full bg-transparent text-sm text-brand-navy outline-none placeholder:text-muted-foreground/70"
                   />
