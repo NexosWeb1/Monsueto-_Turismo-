@@ -9,9 +9,11 @@ import { Button } from "@/components/ui/button";
 export function ImageUpload({
   value,
   onChange,
+  showPreview = true,
 }: {
   value: string;
   onChange: (url: string) => void;
+  showPreview?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -38,27 +40,35 @@ export function ImageUpload({
 
   return (
     <div className="space-y-3">
-      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-lg border border-dashed border-border bg-muted/50">
-        {value ? (
-          <Image
-            src={value}
-            alt="Pré-visualização"
-            fill
-            sizes="(max-width: 768px) 100vw, 500px"
-            className="object-cover"
-          />
-        ) : (
-          <div className="flex flex-col items-center gap-2 text-muted-foreground">
-            <ImageIcon className="h-8 w-8" />
-            <span className="text-sm">Nenhuma imagem selecionada</span>
-          </div>
-        )}
-        {loading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/70">
-            <Loader2 className="h-6 w-6 animate-spin text-brand-red" />
-          </div>
-        )}
-      </div>
+      {showPreview && (
+        <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-lg border border-dashed border-border bg-muted/50">
+          {value ? (
+            <Image
+              src={value}
+              alt="Pré-visualização"
+              fill
+              sizes="(max-width: 768px) 100vw, 500px"
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+              <ImageIcon className="h-8 w-8" />
+              <span className="text-sm">Nenhuma imagem selecionada</span>
+            </div>
+          )}
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-white/70">
+              <Loader2 className="h-6 w-6 animate-spin text-brand-red" />
+            </div>
+          )}
+        </div>
+      )}
+      {!showPreview && loading && (
+        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin text-brand-red" /> Enviando
+          imagem...
+        </div>
+      )}
       <input
         ref={inputRef}
         type="file"

@@ -4,6 +4,10 @@ export type Pacote = {
   local: string;
   descricao: string;
   imagem: string;
+  /** Enquadramento da arte no card: zoom (1 = inteira) e deslocamento em %. */
+  zoom?: number;
+  posX?: number;
+  posY?: number;
   preco?: string;
   condicao?: string;
   promocao: boolean;

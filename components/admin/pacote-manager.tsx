@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Plus, Pencil, Trash2, Loader2, CalendarDays } from "lucide-react";
 import { toast } from "sonner";
 import type { Pacote } from "@/lib/types";
@@ -11,6 +10,13 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { ImageUpload } from "./image-upload";
+import { EnquadramentoEditor } from "./enquadramento-editor";
+import {
+  ENQUADRAMENTO_PADRAO,
+  PacoteArte,
+  lerEnquadramento,
+  type Enquadramento,
+} from "@/components/site/pacote-arte";
 import {
   Dialog,
   DialogContent,
@@ -41,7 +47,7 @@ type Form = {
   imagem: string;
   promocao: boolean;
   ativo: boolean;
-};
+} & Enquadramento;
 
 const vazio: Form = {
   destino: "",
@@ -49,6 +55,7 @@ const vazio: Form = {
   imagem: "",
   promocao: false,
   ativo: true,
+  ...ENQUADRAMENTO_PADRAO,
 };
 
 export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
@@ -72,6 +79,7 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
       imagem: p.imagem,
       promocao: p.promocao,
       ativo: p.ativo,
+      ...lerEnquadramento(p),
     });
     setOpen(true);
   }
@@ -149,13 +157,12 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {pacotes.map((p) => (
             <div key={p.id} className="overflow-hidden rounded-xl border bg-card shadow-sm">
-              <div className="relative aspect-[4/3]">
-                <Image
+              <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+                <PacoteArte
                   src={p.imagem}
                   alt={p.destino || "Pacote"}
-                  fill
+                  enquadramento={lerEnquadramento(p)}
                   sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover"
                 />
                 {p.promocao && (
                   <span className="absolute left-2 top-2 rounded-full bg-brand-red px-2.5 py-0.5 text-xs font-bold text-white">
@@ -214,13 +221,24 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Arte do pacote *</Label>
+              {form.imagem && (
+                <EnquadramentoEditor
+                  src={form.imagem}
+                  value={{ zoom: form.zoom, posX: form.posX, posY: form.posY }}
+                  onChange={(enq) => setForm((f) => ({ ...f, ...enq }))}
+                />
+              )}
               <ImageUpload
                 value={form.imagem}
-                onChange={(url) => setForm((f) => ({ ...f, imagem: url }))}
+                showPreview={!form.imagem}
+                onChange={(url) =>
+                  setForm((f) => ({ ...f, imagem: url, ...ENQUADRAMENTO_PADRAO }))
+                }
               />
               <p className="text-xs text-muted-foreground">
-                Envie a arte/flyer do pacote (formato retrato, tipo post de
-                Instagram). É ela que aparece no card do site.
+                {form.imagem
+                  ? "A prévia acima é exatamente como o card aparece no site. Use o zoom e arraste a arte para ajustar; em 100% ela aparece inteira, sem cortes."
+                  : "Envie a arte/flyer do pacote (formato retrato, tipo post de Instagram). É ela que aparece no card do site."}
               </p>
             </div>
 

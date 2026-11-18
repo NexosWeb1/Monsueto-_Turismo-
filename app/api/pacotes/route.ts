@@ -3,6 +3,20 @@ import { revalidatePath } from "next/cache";
 import { getPacotes, savePacotes, novoId } from "@/lib/data";
 import type { Pacote } from "@/lib/types";
 
+function numero(v: unknown, min: number, max: number): number | undefined {
+  const n = Number(v);
+  if (v === undefined || v === null || v === "" || !Number.isFinite(n)) return undefined;
+  return Math.min(max, Math.max(min, n));
+}
+
+function enquadramento(body: Record<string, unknown>) {
+  return {
+    zoom: numero(body.zoom, 1, 3),
+    posX: numero(body.posX, -200, 200),
+    posY: numero(body.posY, -200, 200),
+  };
+}
+
 export const runtime = "nodejs";
 
 export async function GET() {
@@ -24,6 +38,7 @@ export async function POST(req: Request) {
     local: "",
     descricao: "",
     imagem: String(body.imagem),
+    ...enquadramento(body),
     preco: "",
     condicao: "",
     promocao: Boolean(body.promocao),
@@ -47,8 +62,12 @@ export async function PUT(req: Request) {
   if (idx === -1) {
     return NextResponse.json({ error: "Pacote não encontrado" }, { status: 404 });
   }
+  const enq = enquadramento(body);
   pacotes[idx] = {
     ...pacotes[idx],
+    zoom: enq.zoom ?? pacotes[idx].zoom,
+    posX: enq.posX ?? pacotes[idx].posX,
+    posY: enq.posY ?? pacotes[idx].posY,
     destino: body.destino ?? pacotes[idx].destino,
     imagem: body.imagem ?? pacotes[idx].imagem,
     mes: body.mes ?? pacotes[idx].mes,

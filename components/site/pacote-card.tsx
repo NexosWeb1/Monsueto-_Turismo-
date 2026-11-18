@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { Pacote } from "@/lib/types";
 import { whatsappLink } from "@/lib/config";
+import { PacoteArte, lerEnquadramento } from "./pacote-arte";
 
 export function PacoteCard({ pacote }: { pacote: Pacote }) {
   const nome = pacote.destino?.trim();
@@ -13,13 +13,14 @@ export function PacoteCard({ pacote }: { pacote: Pacote }) {
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-        <Image
-          src={pacote.imagem}
-          alt={nome ? `Pacote para ${nome}` : "Pacote de viagem"}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-        />
+        <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]">
+          <PacoteArte
+            src={pacote.imagem}
+            alt={nome ? `Pacote para ${nome}` : "Pacote de viagem"}
+            enquadramento={lerEnquadramento(pacote)}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+          />
+        </div>
         {pacote.promocao && (
           <span className="absolute left-3 top-3 rounded-full bg-brand-red px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow">
             Promoção
