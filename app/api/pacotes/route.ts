@@ -81,6 +81,26 @@ export async function PUT(req: Request) {
   return NextResponse.json(pacotes[idx]);
 }
 
+/** Reordena os pacotes: recebe a lista de ids na nova ordem. */
+export async function PATCH(req: Request) {
+  const body = await req.json().catch(() => null);
+  const ids: unknown = body?.ids;
+  if (!Array.isArray(ids) || !ids.every((id) => typeof id === "string")) {
+    return NextResponse.json({ error: "Lista de ids inválida" }, { status: 400 });
+  }
+  const pacotes = await getPacotes();
+  const posicao = new Map(ids.map((id, i) => [id, i]));
+  // Pacotes que não vieram na lista (ex.: criados em outra aba) vão para o fim.
+  const ordenados = [...pacotes].sort(
+    (a, b) =>
+      (posicao.get(a.id) ?? ids.length + a.ordem) -
+      (posicao.get(b.id) ?? ids.length + b.ordem),
+  );
+  await savePacotes(ordenados.map((p, i) => ({ ...p, ordem: i + 1 })));
+  revalidatePath("/");
+  return NextResponse.json({ ok: true });
+}
+
 export async function DELETE(req: Request) {
   const body = await req.json().catch(() => null);
   if (!body?.id) {

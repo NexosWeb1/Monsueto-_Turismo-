@@ -1,7 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, CalendarDays } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, CalendarDays, GripVertical } from "lucide-react";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { toast } from "sonner";
 import type { Pacote } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -127,6 +145,35 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
     }
   }
 
+  const sensors = useSensors(
+    // Mouse: só começa a arrastar depois de mover 8px, para não atrapalhar os cliques.
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    // Toque: segurar o card por um instante, para a página continuar rolando normalmente.
+    useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  async function reordenar({ active, over }: DragEndEvent) {
+    if (!over || active.id === over.id) return;
+    const anterior = pacotes;
+    const de = pacotes.findIndex((p) => p.id === active.id);
+    const para = pacotes.findIndex((p) => p.id === over.id);
+    const novos = arrayMove(pacotes, de, para).map((p, i) => ({ ...p, ordem: i + 1 }));
+    setPacotes(novos);
+    try {
+      const res = await fetch("/api/pacotes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: novos.map((p) => p.id) }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Ordem atualizada");
+    } catch {
+      setPacotes(anterior);
+      toast.error("Não foi possível salvar a nova ordem");
+    }
+  }
+
   async function excluir(p: Pacote) {
     if (!confirm(`Excluir o pacote "${p.destino || "sem nome"}"?`)) return;
     const anterior = pacotes;
@@ -154,59 +201,34 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
       {pacotes.length === 0 ? (
         <EmptyState onNew={abrirNovo} />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {pacotes.map((p) => (
-            <div key={p.id} className="overflow-hidden rounded-xl border bg-card shadow-sm">
-              <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                <PacoteArte
-                  src={p.imagem}
-                  alt={p.destino || "Pacote"}
-                  enquadramento={lerEnquadramento(p)}
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                />
-                {p.promocao && (
-                  <span className="absolute left-2 top-2 rounded-full bg-brand-red px-2.5 py-0.5 text-xs font-bold text-white">
-                    Promoção
-                  </span>
-                )}
-                {!p.ativo && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                    <Badge variant="secondary">Inativo</Badge>
-                  </div>
-                )}
+        <>
+          {pacotes.length > 1 && (
+            <p className="mb-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+              <GripVertical className="h-4 w-4" />
+              Arraste os cards para mudar a ordem em que aparecem no site.
+            </p>
+          )}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={reordenar}
+          >
+            <SortableContext items={pacotes.map((p) => p.id)} strategy={rectSortingStrategy}>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {pacotes.map((p, i) => (
+                  <PacoteCard
+                    key={p.id}
+                    pacote={p}
+                    posicao={i + 1}
+                    onToggle={() => alternarAtivo(p)}
+                    onEdit={() => abrirEdicao(p)}
+                    onDelete={() => excluir(p)}
+                  />
+                ))}
               </div>
-              <div className="p-4">
-                <p className="font-semibold text-brand-navy">
-                  {p.destino || "Pacote sem nome"}
-                </p>
-                {p.mes && (
-                  <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-muted-foreground">
-                    <CalendarDays className="h-3 w-3" /> {p.mes}
-                  </p>
-                )}
-                <div className="mt-4 flex items-center justify-between">
-                  <label className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Switch checked={p.ativo} onCheckedChange={() => alternarAtivo(p)} />
-                    {p.ativo ? "Ativo" : "Inativo"}
-                  </label>
-                  <div className="flex gap-1">
-                    <Button size="icon" variant="ghost" onClick={() => abrirEdicao(p)}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => excluir(p)}
-                      className="text-destructive hover:text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            </SortableContext>
+          </DndContext>
+        </>
       )}
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -303,6 +325,100 @@ export function PacoteManager({ inicial }: { inicial: Pacote[] }) {
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+function PacoteCard({
+  pacote: p,
+  posicao,
+  onToggle,
+  onEdit,
+  onDelete,
+}: {
+  pacote: Pacote;
+  posicao: number;
+  onToggle: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: p.id });
+
+  return (
+    <div
+      ref={(el) => {
+        setNodeRef(el);
+        // O card é o ativador: teclas em botões internos não disparam o arraste.
+        setActivatorNodeRef(el);
+      }}
+      style={{ transform: CSS.Transform.toString(transform), transition }}
+      {...attributes}
+      {...listeners}
+      aria-label={`Pacote ${posicao}: ${p.destino || "sem nome"}. Arraste para reordenar.`}
+      className={`relative touch-manipulation select-none overflow-hidden rounded-xl border bg-card shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-brand-sky ${
+        isDragging
+          ? "z-10 cursor-grabbing opacity-90 shadow-xl ring-2 ring-brand-sky"
+          : "cursor-grab"
+      }`}
+    >
+      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+        <PacoteArte
+          src={p.imagem}
+          alt={p.destino || "Pacote"}
+          enquadramento={lerEnquadramento(p)}
+          sizes="(max-width: 640px) 100vw, 33vw"
+        />
+        <span className="pointer-events-none absolute right-2 top-2 flex items-center gap-1 rounded-full bg-brand-navy/80 px-2 py-1 text-xs font-semibold text-white">
+          <GripVertical className="h-3.5 w-3.5" />
+          {posicao}
+        </span>
+        {p.promocao && (
+          <span className="absolute left-2 top-2 rounded-full bg-brand-red px-2.5 py-0.5 text-xs font-bold text-white">
+            Promoção
+          </span>
+        )}
+        {!p.ativo && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+            <Badge variant="secondary">Inativo</Badge>
+          </div>
+        )}
+      </div>
+      <div className="p-4">
+        <p className="font-semibold text-brand-navy">{p.destino || "Pacote sem nome"}</p>
+        {p.mes && (
+          <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-muted-foreground">
+            <CalendarDays className="h-3 w-3" /> {p.mes}
+          </p>
+        )}
+        <div className="mt-4 flex items-center justify-between">
+          <label className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Switch checked={p.ativo} onCheckedChange={onToggle} />
+            {p.ativo ? "Ativo" : "Inativo"}
+          </label>
+          <div className="flex gap-1">
+            <Button size="icon" variant="ghost" onClick={onEdit} aria-label="Editar pacote">
+              <Pencil className="h-4 w-4" />
+            </Button>
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={onDelete}
+              aria-label="Excluir pacote"
+              className="text-destructive hover:text-destructive"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
